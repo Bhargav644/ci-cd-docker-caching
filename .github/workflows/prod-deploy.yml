@@ -25,14 +25,14 @@ jobs:
 
             - name: Pull candidate image
               run: |
-                  docker pull ghcr.io/${{ env.OWNER_LC }}:candidate
+                  docker pull ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:candidate
 
             - name: Run container (demo)
               run: |
                   docker ps -a --format "{{.Names}}: {{.Image}}" || true
                   docker stop next-app || true
                   docker rm next-app || true
-                  docker run -d --name next-app -p 3000:3000 ghcr.io/${{ env.OWNER_LC }}:candidate
+                  docker run -d --name next-app -p 3000:3000 ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:candidate
 
             - name: Show container logs (short)
               run: docker logs --tail 50 next-app || true

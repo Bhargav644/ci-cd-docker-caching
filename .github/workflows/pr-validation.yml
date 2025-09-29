@@ -42,10 +42,10 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/${{ env.OWNER_LC }}:pr-${{ github.event.pull_request.number }}
-            ghcr.io/${{ env.OWNER_LC }}:candidate
-          cache-from: type=registry,ref=ghcr.io/${{ env.OWNER_LC }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.OWNER_LC }}:buildcache,mode=max
+            ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:pr-${{ github.event.pull_request.number }}
+            ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:candidate
+          cache-from: type=registry,ref=ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.OWNER_LC }}/ci-cd-docker-caching:buildcache,mode=max
 
       - name: Run tests / lint (optional)
         run: |
