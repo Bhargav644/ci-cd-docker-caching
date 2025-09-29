@@ -11,6 +11,8 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
+            - name: Set repository owner lowercase
+              run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
             - name: Checkout
               uses: actions/checkout@v4
 
@@ -23,14 +25,14 @@ jobs:
 
             - name: Pull candidate image
               run: |
-                  docker pull ghcr.io/${{ github.repository }}:candidate
+                  docker pull ghcr.io/${{ env.OWNER_LC }}:candidate
 
             - name: Run container (demo)
               run: |
                   docker ps -a --format "{{.Names}}: {{.Image}}" || true
                   docker stop next-app || true
                   docker rm next-app || true
-                  docker run -d --name next-app -p 3000:3000 ghcr.io/${{ github.repository }}:candidate
+                  docker run -d --name next-app -p 3000:3000 ghcr.io/${{ env.OWNER_LC }}:candidate
 
             - name: Show container logs (short)
               run: docker logs --tail 50 next-app || true
